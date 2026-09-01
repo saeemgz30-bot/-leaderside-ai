@@ -1,7 +1,5 @@
 import { useState } from 'react';
-import {
-  Search, Sparkles, Plus, Building2, User, Mail, Globe, Star, Loader2, Zap, Target,
-} from 'lucide-react';
+import { Search, Sparkles, Plus, Building2, User, Mail, Globe, Star, Loader as Loader2, Zap, Target } from 'lucide-react';
 import { Card, Badge, Button } from '../components/ui/Card';
 import { Input, Select, Textarea } from '../components/ui/Input';
 import { ScoreBar } from '../components/ui/EmptyState';

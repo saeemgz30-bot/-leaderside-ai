@@ -1,7 +1,5 @@
 import { useEffect, useState, useCallback } from 'react';
-import {
-  Megaphone, Plus, MoreVertical, Mail, Calendar, TrendingUp, Play, Pause, Trash2,
-} from 'lucide-react';
+import { Megaphone, Plus, MoveVertical as MoreVertical, Mail, Calendar, TrendingUp, Play, Pause, Trash2 } from 'lucide-react';
 import { Card, Badge, Button } from '../components/ui/Card';
 import { Modal } from '../components/ui/Modal';
 import { Input, Textarea, Select } from '../components/ui/Input';

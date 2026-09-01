@@ -1,8 +1,5 @@
 import { useEffect, useState, useCallback } from 'react';
-import {
-  Workflow, Plus, Trash2, Mail, Clock, ChevronRight, GripVertical,
-  Loader2, Save, ArrowDown, FileText,
-} from 'lucide-react';
+import { Workflow, Plus, Trash2, Mail, Clock, ChevronRight, GripVertical, Loader as Loader2, Save, ArrowDown, FileText } from 'lucide-react';
 import { Card, Badge, Button } from '../components/ui/Card';
 import { Modal } from '../components/ui/Modal';
 import { Input, Textarea, Select } from '../components/ui/Input';

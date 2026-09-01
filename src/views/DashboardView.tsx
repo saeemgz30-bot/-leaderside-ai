@@ -1,18 +1,5 @@
 import { useEffect, useState, useCallback } from 'react';
-import {
-  Users,
-  TrendingUp,
-  Mail,
-  Target,
-  ArrowUpRight,
-  Clock,
-  CheckCircle2,
-  Sparkles,
-  UserPlus,
-  Send,
-  Megaphone,
-  Search,
-} from 'lucide-react';
+import { Users, TrendingUp, Mail, Target, ArrowUpRight, Clock, CircleCheck as CheckCircle2, Sparkles, UserPlus, Send, Megaphone, Search } from 'lucide-react';
 import { Card, StatCard, Badge, Button } from '../components/ui/Card';
 import { LoadingSpinner } from '../components/ui/EmptyState';
 import { supabase } from '../lib/supabase';

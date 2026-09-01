@@ -1,8 +1,5 @@
 import { useEffect, useState, useCallback } from 'react';
-import {
-  Users, Plus, Filter, Trash2, MoreVertical, Mail, Phone, Globe, Linkedin,
-  Building2, Star, ChevronDown,
-} from 'lucide-react';
+import { Users, Plus, ListFilter as Filter, Trash2, MoveVertical as MoreVertical, Mail, Phone, Globe, Linkedin, Building2, Star, ChevronDown } from 'lucide-react';
 import { Card, Badge, Button } from '../components/ui/Card';
 import { Modal } from '../components/ui/Modal';
 import { Input, Textarea, Select } from '../components/ui/Input';

@@ -1,8 +1,5 @@
 import { useEffect, useState, useCallback } from 'react';
-import {
-  Sparkles, Loader2, Copy, Check, Wand2, Mail, FileText, MessageSquare,
-  RefreshCw, Star, Zap, Lightbulb,
-} from 'lucide-react';
+import { Sparkles, Loader as Loader2, Copy, Check, Wand as Wand2, Mail, FileText, MessageSquare, RefreshCw, Star, Zap, Lightbulb } from 'lucide-react';
 import { Card, Badge, Button } from '../components/ui/Card';
 import { Select, Textarea } from '../components/ui/Input';
 import { LoadingSpinner, EmptyState } from '../components/ui/EmptyState';
