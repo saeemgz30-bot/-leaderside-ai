@@ -1,0 +1,6 @@
+{
+  "name": "LeaderSide AI",
+  "description": "Ultra-Premium B2B Growth Engine and Enterprise Lead Extractor with AI Hyper-Personalization Studio and Smart Sequence Automation.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
