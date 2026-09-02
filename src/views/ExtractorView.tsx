@@ -125,7 +125,7 @@ export function ExtractorView({ onNavigate }: { onNavigate: (v: 'leads' | 'studi
               rows={2}
               placeholder="e.g. Series B SaaS companies in the cybersecurity space with engineering teams of 50+"
             />
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <Input label="Industry Filter" value={industry} onChange={(e) => setIndustry(e.target.value)} placeholder="Cybersecurity" />
               <Select label="Company Size" value={companySize} onChange={(e) => setCompanySize(e.target.value)}>
                 <option value="">Any Size</option>

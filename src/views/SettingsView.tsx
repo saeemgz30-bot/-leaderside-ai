@@ -26,7 +26,7 @@ export function SettingsView() {
     <div className="space-y-5 animate-fade-in">
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-5">
         {/* Tabs */}
-        <div className="space-y-1">
+        <div className="flex lg:flex-col gap-1 overflow-x-auto lg:overflow-visible pb-2 lg:pb-0">
           {tabs.map(tab => {
             const Icon = tab.icon;
             return (
@@ -52,7 +52,7 @@ export function SettingsView() {
             <Card>
               <h4 className="text-base font-semibold text-slate-100 mb-4">Profile Settings</h4>
               <div className="space-y-4">
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <Input label="Full Name" defaultValue="LeaderSide Admin" />
                   <Input label="Email" defaultValue="admin@leaderside.ai" />
                   <Input label="Company" defaultValue="LeaderSide AI" />
@@ -103,7 +103,7 @@ export function SettingsView() {
                   </div>
                   <p className="text-xs text-slate-500">Your account is protected with 2FA via authenticator app.</p>
                 </div>
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <Input label="Current Password" type="password" placeholder="••••••••" />
                   <Input label="New Password" type="password" placeholder="••••••••" />
                 </div>

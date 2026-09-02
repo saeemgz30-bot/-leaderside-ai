@@ -22,6 +22,12 @@ const viewMeta: Record<ViewKey, { title: string; subtitle: string }> = {
 
 export default function App() {
   const [view, setView] = useState<ViewKey>('dashboard');
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  const handleNavigate = (v: ViewKey) => {
+    setView(v);
+    setSidebarOpen(false);
+  };
 
   const renderView = () => {
     switch (view) {
@@ -46,10 +52,16 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-base-900">
-      <Sidebar active={view} onNavigate={setView} />
-      <div className="ml-64">
-        <TopBar title={meta.title} subtitle={meta.subtitle} />
-        <main className="p-8 max-w-[1400px]">
+      <Sidebar active={view} onNavigate={handleNavigate} open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+      {sidebarOpen && (
+        <div
+          className="fixed inset-0 bg-black/50 z-30 lg:hidden"
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
+      <div className="lg:ml-64">
+        <TopBar title={meta.title} subtitle={meta.subtitle} onMenuClick={() => setSidebarOpen(true)} />
+        <main className="p-4 sm:p-6 lg:p-8 max-w-[1400px]">
           {renderView()}
         </main>
       </div>

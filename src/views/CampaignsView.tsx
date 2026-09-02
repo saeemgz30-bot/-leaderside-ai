@@ -45,19 +45,19 @@ export function CampaignsView() {
 
   return (
     <div className="space-y-5 animate-fade-in">
-      <div className="flex items-center justify-between">
-        <div className="grid grid-cols-3 gap-3">
-          <div className="glass rounded-xl px-4 py-2.5">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+        <div className="grid grid-cols-3 gap-2 sm:gap-3 w-full sm:w-auto">
+          <div className="glass rounded-xl px-3 sm:px-4 py-2.5">
             <p className="text-xs text-slate-500">Total</p>
-            <p className="text-lg font-bold text-slate-100">{campaigns.length}</p>
+            <p className="text-base sm:text-lg font-bold text-slate-100">{campaigns.length}</p>
           </div>
-          <div className="glass rounded-xl px-4 py-2.5">
+          <div className="glass rounded-xl px-3 sm:px-4 py-2.5">
             <p className="text-xs text-slate-500">Active</p>
-            <p className="text-lg font-bold text-emerald-glow">{campaigns.filter(c => c.status === 'active').length}</p>
+            <p className="text-base sm:text-lg font-bold text-emerald-glow">{campaigns.filter(c => c.status === 'active').length}</p>
           </div>
-          <div className="glass rounded-xl px-4 py-2.5">
+          <div className="glass rounded-xl px-3 sm:px-4 py-2.5">
             <p className="text-xs text-slate-500">Draft</p>
-            <p className="text-lg font-bold text-slate-300">{campaigns.filter(c => c.status === 'draft').length}</p>
+            <p className="text-base sm:text-lg font-bold text-slate-300">{campaigns.filter(c => c.status === 'draft').length}</p>
           </div>
         </div>
         <Button onClick={() => setShowAdd(true)}>

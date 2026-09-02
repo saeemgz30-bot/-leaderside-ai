@@ -86,17 +86,17 @@ export function DashboardView({ onNavigate }: { onNavigate: (v: 'leads' | 'extra
       <Card className="relative overflow-hidden">
         <div className="absolute inset-0 grid-bg opacity-50" />
         <div className="absolute top-0 right-0 w-96 h-96 bg-cyan-glow/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
-        <div className="relative flex items-center justify-between">
+        <div className="relative flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
             <Badge variant="cyan" className="mb-3">
               <Sparkles className="w-3 h-3" /> AI-Powered Growth Engine
             </Badge>
-            <h3 className="text-2xl font-bold text-slate-100">Welcome back to LeaderSide AI</h3>
+            <h3 className="text-xl sm:text-2xl font-bold text-slate-100">Welcome back to LeaderSide AI</h3>
             <p className="text-sm text-slate-400 mt-1.5 max-w-lg">
               Your enterprise B2B growth command center. Extract leads, personalize outreach with AI, and automate sequences.
             </p>
           </div>
-          <div className="hidden lg:flex gap-3">
+          <div className="flex gap-3">
             <Button variant="secondary" size="md" onClick={() => onNavigate('extractor')}>
               <Search className="w-4 h-4" /> Extract Leads
             </Button>

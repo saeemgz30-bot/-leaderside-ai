@@ -83,7 +83,7 @@ export function LeadsView() {
             placeholder="Search leads..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="rounded-xl bg-base-850/50 border border-white/5 px-3.5 py-2 text-sm text-slate-100 placeholder:text-slate-500 focus:outline-none focus:border-cyan-glow/30 w-64"
+            className="rounded-xl bg-base-850/50 border border-white/5 px-3.5 py-2 text-sm text-slate-100 placeholder:text-slate-500 focus:outline-none focus:border-cyan-glow/30 w-full sm:w-64"
           />
         </div>
         <Button onClick={() => setShowAdd(true)}>
@@ -177,7 +177,7 @@ export function LeadsView() {
               <Badge variant={statusVariants[selectedLead.status]}>{selectedLead.status}</Badge>
             </div>
 
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div className="glass rounded-xl p-3">
                 <div className="flex items-center gap-2 text-xs text-slate-500 mb-1"><Mail className="w-3 h-3" /> Email</div>
                 <p className="text-sm text-slate-200">{selectedLead.email || '—'}</p>
@@ -272,7 +272,7 @@ function AddLeadModal({ open, onClose, onAdded }: { open: boolean; onClose: () =
   return (
     <Modal open={open} onClose={onClose} title="Add New Lead" size="lg">
       <div className="space-y-4">
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <Input label="Company Name *" value={form.company_name} onChange={(e) => setForm({ ...form, company_name: e.target.value })} placeholder="Acme Corp" />
           <Input label="Contact Name" value={form.contact_name} onChange={(e) => setForm({ ...form, contact_name: e.target.value })} placeholder="Jane Doe" />
           <Input label="Title" value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} placeholder="VP of Engineering" />
