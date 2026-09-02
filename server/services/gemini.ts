@@ -90,7 +90,7 @@ export async function extractLeadsFromQuery(
 ): Promise<{ leads: ExtractedLead[]; summary: string }> {
   const client = getClient();
 
-  const prompt = `You are a B2B lead generation expert. Based on the following search criteria, generate realistic-looking prospect leads that match the criteria. These should be plausible companies and contacts that fit the target profile.
+  const prompt = `You are a B2B lead generation expert. Based on the following search criteria, generate realistic-looking prospect leads that match the criteria.
 
 SEARCH QUERY: ${query}
 INDUSTRY FILTER: ${industry || 'Any'}
