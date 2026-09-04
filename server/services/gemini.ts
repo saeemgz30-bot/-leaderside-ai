@@ -22,6 +22,65 @@ function parseJsonResponse(text: string): unknown {
   }
 }
 
+function logGeminiError(context: string, error: unknown): void {
+  console.error(`[Gemini] ${context} failed:`);
+  if (error instanceof Error) {
+    console.error(`  Message: ${error.message}`);
+    console.error(`  Stack: ${error.stack || 'no stack'}`);
+    // @ts-expect-error: Gemini SDK errors nest details under .error
+    const apiError = (error as Record<string, unknown>).error;
+    if (apiError) {
+      console.error(`  API Error: ${JSON.stringify(apiError)}`);
+    }
+  } else {
+    console.error(`  Unknown error: ${JSON.stringify(error)}`);
+  }
+}
+
+// --- Fallback simulated data ---
+
+const FALLBACK_LEAD_TEMPLATES = [
+  { company_name: 'CyberShield AI', contact_name: 'Sarah Jenkins', title: 'Chief Information Security Officer', industry: 'Cybersecurity', company_size: '120', website: 'https://cybershield.ai', email: 's.jenkins@cybershield.ai' },
+  { company_name: 'AegisNet Security', contact_name: 'Marcus Vance', title: 'VP of Engineering', industry: 'Cybersecurity', company_size: '85', website: 'https://aegisnet.io', email: 'marcus.vance@aegisnet.io' },
+  { company_name: 'FortressIdentity', contact_name: 'David Chen', title: 'Head of Growth', industry: 'Cybersecurity', company_size: '75', website: 'https://fortressidentity.tech', email: 'dchen@fortressidentity.tech' },
+  { company_name: 'QuantumDefend', contact_name: 'Elena Rostova', title: 'VP of Product', industry: 'Cybersecurity', company_size: '160', website: 'https://quantumdefend.com', email: 'e.rostova@quantumdefend.com' },
+  { company_name: 'ThreatPulse Systems', contact_name: 'Amanda Hayes', title: 'Director of Business Development', industry: 'Cybersecurity', company_size: '190', website: 'https://threatpulse.io', email: 'ahayes@threatpulse.io' },
+];
+
+function generateFallbackLeads(query: string, industry: string, companySize: string): { leads: ExtractedLead[]; summary: string } {
+  const ind = industry || 'Technology';
+  const templates = FALLBACK_LEAD_TEMPLATES.map((t, i) => ({
+    ...t,
+    industry: ind,
+    company_size: companySize || t.company_size,
+    score: 95 - i * 4,
+    reasoning: `Strong match for "${query}" — ${ind} company in the ${companySize || 'target'} size range with relevant growth signals.`,
+  }));
+  return {
+    leads: templates,
+    summary: `Generated ${templates.length} simulated leads matching your criteria. (Fallback mode — live AI unavailable)`,
+  };
+}
+
+function generateFallbackPersonalization(
+  lead: { company_name: string; contact_name: string | null; title: string | null; industry: string | null; notes: string | null },
+  tone: string,
+  type: string,
+  context: string,
+): PersonalizationResult {
+  const firstName = lead.contact_name?.split(' ')[0] || 'there';
+  const company = lead.company_name;
+  const industry = lead.industry || 'your industry';
+
+  return {
+    subject: `Quick question about ${company}'s growth`,
+    body: `Hi {{first_name}},\n\nI noticed ${company} has been making moves in the ${industry} space${lead.notes ? ` — ${lead.notes}` : ''}.\n\nWe help companies like yours streamline their outreach and growth workflows${context ? `, especially around ${context}` : ''}. I'd love to share how teams in similar roles are seeing results.\n\nWould you be open to a brief 10-minute chat next week?\n\nBest regards,\n[Your Name]`,
+    reasoning: `Fallback message personalized for ${firstName} at ${company}. References their industry${lead.notes ? ' and notes' : ''}. (Fallback mode — live AI unavailable)`,
+  };
+}
+
+// --- Public API ---
+
 export interface PersonalizationResult {
   subject: string;
   body: string;
@@ -43,10 +102,11 @@ export async function generatePersonalization(
   type: string,
   context: string,
 ): Promise<PersonalizationResult> {
-  const client = getClient();
-  const firstName = lead.contact_name?.split(' ')[0] || 'there';
+  try {
+    const client = getClient();
+    const firstName = lead.contact_name?.split(' ')[0] || 'there';
 
-  const prompt = `You are an expert B2B sales copywriter. Write a hyper-personalized ${type} outreach message.
+    const prompt = `You are an expert B2B sales copywriter. Write a hyper-personalized ${type} outreach message.
 
 LEAD DETAILS:
 - Company: ${lead.company_name}
@@ -71,12 +131,16 @@ Requirements:
 Return ONLY valid JSON in this exact format:
 {"subject": "...", "body": "...", "reasoning": "Brief explanation of personalization choices"}`;
 
-  const response = await client.models.generateContent({
-    model: 'gemini-3.6-flash',
-    contents: prompt,
-  });
+    const response = await client.models.generateContent({
+      model: 'gemini-3.6-flash',
+      contents: prompt,
+    });
 
-  return parseJsonResponse(response.text || '') as PersonalizationResult;
+    return parseJsonResponse(response.text || '') as PersonalizationResult;
+  } catch (error) {
+    logGeminiError('generatePersonalization', error);
+    return generateFallbackPersonalization(lead, tone, type, context);
+  }
 }
 
 export interface ExtractedLead {
@@ -96,9 +160,10 @@ export async function extractLeadsFromQuery(
   industry: string,
   companySize: string,
 ): Promise<{ leads: ExtractedLead[]; summary: string }> {
-  const client = getClient();
+  try {
+    const client = getClient();
 
-  const prompt = `You are a B2B lead generation expert. Based on the following search criteria, generate realistic-looking prospect leads that match the criteria.
+    const prompt = `You are a B2B lead generation expert. Based on the following search criteria, generate realistic-looking prospect leads that match the criteria.
 
 SEARCH QUERY: ${query}
 INDUSTRY FILTER: ${industry || 'Any'}
@@ -124,10 +189,14 @@ Return ONLY valid JSON in this exact format:
   "summary": "Brief summary of the extraction results"
 }`;
 
-  const response = await client.models.generateContent({
-    model: 'gemini-3.6-flash',
-    contents: prompt,
-  });
+    const response = await client.models.generateContent({
+      model: 'gemini-3.6-flash',
+      contents: prompt,
+    });
 
-  return parseJsonResponse(response.text || '') as { leads: ExtractedLead[]; summary: string };
+    return parseJsonResponse(response.text || '') as { leads: ExtractedLead[]; summary: string };
+  } catch (error) {
+    logGeminiError('extractLeadsFromQuery', error);
+    return generateFallbackLeads(query, industry, companySize);
+  }
 }
