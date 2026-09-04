@@ -256,7 +256,7 @@ function AddLeadModal({ open, onClose, onAdded }: { open: boolean; onClose: () =
     await supabase.from('leads').insert({
       ...form,
       status: 'new',
-      score: Math.floor(Math.random() * 30) + 60,
+      score: 50,
       source: 'Manual Entry',
     });
     await supabase.from('activities').insert({

@@ -77,7 +77,7 @@ export function DashboardView({ onNavigate }: { onNavigate: (v: 'leads' | 'extra
       const ld = new Date(l.created_at);
       return ld.toDateString() === d.toDateString();
     }).length;
-    return { day: dayStr, leads: dayLeads || Math.floor(Math.random() * 3) + 1 };
+    return { day: dayStr, leads: dayLeads };
   });
 
   return (
