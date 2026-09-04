@@ -1,12 +1,25 @@
 import { GoogleGenAI } from '@google/genai';
 
-const GEMINI_API_KEY = process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY;
-
 function getClient(): GoogleGenAI {
-  if (!GEMINI_API_KEY) {
-    throw new Error('GEMINI_API_KEY is not configured. Set it in .env.local');
+  const key = process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY;
+  if (!key) {
+    throw new Error('GEMINI_API_KEY is not configured. Set it in .env');
   }
-  return new GoogleGenAI({ apiKey: GEMINI_API_KEY });
+  return new GoogleGenAI({ apiKey: key });
+}
+
+function parseJsonResponse(text: string): unknown {
+  if (!text) throw new Error('AI returned an empty response');
+  const cleaned = text.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
+  const jsonMatch = cleaned.match(/\{[\s\S]*\}/);
+  if (!jsonMatch) {
+    throw new Error('AI returned invalid response format');
+  }
+  try {
+    return JSON.parse(jsonMatch[0]);
+  } catch {
+    throw new Error('AI returned malformed JSON');
+  }
 }
 
 export interface PersonalizationResult {
@@ -63,12 +76,7 @@ Return ONLY valid JSON in this exact format:
     contents: prompt,
   });
 
-  const text = response.text || '';
-  const jsonMatch = text.match(/\{[\s\S]*\}/);
-  if (!jsonMatch) {
-    throw new Error('AI returned invalid response format');
-  }
-  return JSON.parse(jsonMatch[0]);
+  return parseJsonResponse(response.text || '') as PersonalizationResult;
 }
 
 export interface ExtractedLead {
@@ -121,10 +129,5 @@ Return ONLY valid JSON in this exact format:
     contents: prompt,
   });
 
-  const text = response.text || '';
-  const jsonMatch = text.match(/\{[\s\S]*\}/);
-  if (!jsonMatch) {
-    throw new Error('AI returned invalid response format');
-  }
-  return JSON.parse(jsonMatch[0]);
+  return parseJsonResponse(response.text || '') as { leads: ExtractedLead[]; summary: string };
 }
