@@ -59,7 +59,7 @@ Return ONLY valid JSON in this exact format:
 {"subject": "...", "body": "...", "reasoning": "Brief explanation of personalization choices"}`;
 
   const response = await client.models.generateContent({
-    model: 'gemini-2.5-flash',
+    model: 'gemini-3.6-flash',
     contents: prompt,
   });
 
@@ -117,7 +117,7 @@ Return ONLY valid JSON in this exact format:
 }`;
 
   const response = await client.models.generateContent({
-    model: 'gemini-2.5-flash',
+    model: 'gemini-3.6-flash',
     contents: prompt,
   });
 
