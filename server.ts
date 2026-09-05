@@ -5,6 +5,7 @@ import { createServer as createViteServer } from 'vite';
 import apiRouter from './server/routes/api';
 
 dotenv.config({ path: path.join(process.cwd(), '.env') });
+dotenv.config({ path: path.join(process.cwd(), '.env.local'), override: true });
 
 const geminiKey = process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY;
 console.log(`[startup] GEMINI_API_KEY ${geminiKey ? `loaded (${geminiKey.slice(0, 6)}...)` : 'MISSING'}`);
